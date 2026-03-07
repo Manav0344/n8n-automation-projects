@@ -1,0 +1,212 @@
+{
+  "name": "contact us",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Contact US",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Full Name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email",
+              "placeholder": "Enter Your Email.....",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Phone Number",
+              "fieldType": "number",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "message",
+              "fieldType": "textarea",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        -432,
+        -16
+      ],
+      "id": "40987807-7dc8-4252-a928-699b69bb7c7e",
+      "name": "On form submission",
+      "webhookId": "749b4d48-e138-439b-b3da-973f6935b656"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1YPEhBhaK5iWszbmUeqOOzUTajWi-ASWXZILy2FSs2Es",
+          "mode": "list",
+          "cachedResultName": "form submit",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YPEhBhaK5iWszbmUeqOOzUTajWi-ASWXZILy2FSs2Es/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YPEhBhaK5iWszbmUeqOOzUTajWi-ASWXZILy2FSs2Es/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "Full Name": "={{ $json['Full Name'] }}",
+            "Email": "={{ $json.Email }}",
+            "Phone Number": "={{ $json['Phone Number'] }}",
+            "message": "={{ $json.message }}",
+            "submittedAt": "={{ $json.submittedAt }}",
+            "formMode": "={{ $json.formMode }}"
+          },
+          "matchingColumns": [
+            "Full Name"
+          ],
+          "schema": [
+            {
+              "id": "Full Name",
+              "displayName": "Full Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone Number",
+              "displayName": "Phone Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "submittedAt",
+              "displayName": "submittedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "formMode",
+              "displayName": "formMode",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -192,
+        -16
+      ],
+      "id": "e666a240-c1ad-42da-991f-49e939fe9065",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "YsZiugTkN3wbd7kZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "=New Contact Form Submission – {{ $json[\"Full Name\"] }}",
+        "message": "=<div style=\"margin:0; padding:0; background-color:#f4f6f8; font-family:Arial, sans-serif;\">\n  <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background-color:#f4f6f8; padding:20px 0;\">\n    <tr>\n      <td align=\"center\">\n        \n        <table width=\"600\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#ffffff; border-radius:6px; box-shadow:0 3px 10px rgba(0,0,0,0.05); padding:30px;\">\n          \n          <!-- Header -->\n          <tr>\n            <td style=\"padding-bottom:20px; border-bottom:1px solid #e5e5e5;\">\n              <h2 style=\"margin:0; font-size:20px; color:#2c3e50; font-weight:600;\">\n                New Form Submission\n              </h2>\n            </td>\n          </tr>\n\n          <!-- Spacing -->\n          <tr><td height=\"20\"></td></tr>\n\n          <!-- Content Table -->\n          <tr>\n            <td>\n              <table width=\"100%\" cellpadding=\"8\" cellspacing=\"0\" style=\"border-collapse:collapse; font-size:14px; color:#333;\">\n                \n                <tr>\n                  <td width=\"160\" style=\"font-weight:600; color:#555;\">Full Name</td>\n                  <td>{{ $json[\"Full Name\"] }}</td>\n                </tr>\n\n                <tr style=\"background-color:#f9fafb;\">\n                  <td style=\"font-weight:600; color:#555;\">Email</td>\n                  <td>{{ $json[\"Email\"] }}</td>\n                </tr>\n\n                <tr>\n                  <td style=\"font-weight:600; color:#555;\">Phone Number</td>\n                  <td>{{ $json[\"Phone Number\"] }}</td>\n                </tr>\n\n                <tr style=\"background-color:#f9fafb;\">\n                  <td style=\"font-weight:600; color:#555;\">Message</td>\n                  <td style=\"white-space:pre-line;\">{{ $json[\"message\"] }}</td>\n                </tr>\n\n              </table>\n            </td>\n          </tr>\n\n          <!-- Footer -->\n          <tr>\n            <td style=\"padding-top:25px; border-top:1px solid #e5e5e5; font-size:12px; color:#777;\">\n              Submitted at: {{ $json[\"submittedAt\"] }}<br>\n              Form Mode: {{ $json[\"formMode\"] }}\n            </td>\n          </tr>\n\n          <!-- Closing Message -->\n          <tr>\n            <td style=\"padding-top:20px; font-size:14px; color:#333;\">\n              <p style=\"margin:0;\">\n                Thank you for reaching out to us. Our team will contact you as soon as possible.\n              </p>\n            </td>\n          </tr>\n\n        </table>\n\n      </td>\n    </tr>\n  </table>\n</div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        48,
+        -16
+      ],
+      "id": "5373c74d-e765-4dbb-a34e-94ad4c1f094b",
+      "name": "Send a message",
+      "webhookId": "e7e7fb7a-c061-496e-b73d-df1bcf883b5e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "1X4TvTCsvL9lgC4x",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "3e9b8e0b-4f61-4144-9a3f-576ab02cbbb9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "67bc6e5054da652905b54b1bce56563d62a027fd5f2df88b5b58fdf548f482bd"
+  },
+  "id": "0Y2Jf0INdCHUHEy9",
+  "tags": []
+}
