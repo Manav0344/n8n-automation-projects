@@ -1,0 +1,117 @@
+{
+  "name": "Daily Motivational Sender",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -288,
+        -64
+      ],
+      "id": "410bd330-ddd2-4120-8dc7-f2a502bb302a",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=You are a motivational writer for students.\n\nWrite a short motivational quote that can be used on motivational images for students.\n\nRules:\n- Maximum 2 lines only\n- Inspiring and positive tone\n- Very easy to read\n- Short and powerful\n- Focus on growth, learning, effort, and success\n- Add exactly 2 motivational emojis at the end\n- Do not add explanations\n- Output only the quote\n\nExample style:\n\"Success is built by small daily efforts.\nKeep learning, keep growing. 🚀✨\""
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        -80,
+        -64
+      ],
+      "id": "ccfe702c-798f-4262-8120-effe11f6eae3",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "1XyN0Q4YODHLwQfH",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "1496731747",
+        "text": "={{ $json.output[0].content[0].text }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        272,
+        -64
+      ],
+      "id": "e56e8184-b798-4c95-9bc9-03b1b205e27f",
+      "name": "Send a text message",
+      "webhookId": "99733447-8de5-4b81-aad8-949d62f89e62",
+      "credentials": {
+        "telegramApi": {
+          "id": "YaerKH7kwHIR42Ny",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "70ea6fe9-5a5e-4ea2-8a0e-65ee2d0eda25",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "67bc6e5054da652905b54b1bce56563d62a027fd5f2df88b5b58fdf548f482bd"
+  },
+  "id": "z9Uw0ZrWJg6TGNNH",
+  "tags": []
+}
